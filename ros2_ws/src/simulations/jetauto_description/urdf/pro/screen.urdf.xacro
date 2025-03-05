@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot name="screen" xmlns:xacro="http://ros.org/wiki/xacro" >
+  <xacro:property name="M_PI"             value="3.1415926535897931"/>
+  <xacro:property name="screen_link_mass" value="0.5" />
+  <xacro:property name="screen_link_w"    value="0.0205"/>
+  <xacro:property name="screen_link_h"    value="0.175"/>
+  <xacro:property name="screen_link_d"    value="0.135"/>
+  <link
+    name="screen_link">
+    <xacro:box_inertial m="${screen_link_mass}"
+                        w="${screen_link_w}"
+                        h="${screen_link_h}"
+                        d="${screen_link_d}"/>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://jetauto_description/meshes/pro/screen_link.stl" />
+      </geometry>
+      <material name="black"/>
+    </visual>
+    <collision>
+      <origin
+        xyz="-${screen_link_w/2} 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <box size="${screen_link_w} ${screen_link_h} ${screen_link_d}" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="screen_joint"
+    type="fixed">
+    <origin
+      xyz="-0.14644 0.0024785 0.25477"
+      rpy="0 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="screen_link" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+</robot>

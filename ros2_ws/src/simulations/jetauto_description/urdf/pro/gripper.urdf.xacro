@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot name="gripper" xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:property name="M_PI"   value="3.1415926535897931"/>
+
+  <link
+    name="r_link">
+    <inertial>
+      <origin
+        xyz="0.00154652142582958 0.000534112070478834 0.00624030428121536"
+        rpy="0 0 0" />
+      <mass
+        value="0.00206265647704866" />
+      <inertia
+        ixx="3.97215843669342E-07"
+        ixy="-2.75699120579387E-10"
+        ixz="-2.19901048536124E-09"
+        iyy="3.22472627342115E-07"
+        iyz="1.07303783544668E-08"
+        izz="7.78708186672131E-08" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://jetauto_description/meshes/pro/gripper/r_link.STL" />
+      </geometry>
+      <material name="black"/>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://jetauto_description/meshes/pro/gripper/r_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="r_joint"
+    type="revolute">
+    <origin
+      xyz="-0.0073166 -0.013992 0.027059"
+      rpy="0 0 0" />
+    <parent
+      link="gripper_link" />
+    <child
+      link="r_link" />
+    <axis
+      xyz="0.99996 -0.004699 -0.0070434" />
+    <limit
+      lower="-1.57"
+      upper="1.57"
+      effort="1000"
+      velocity="10" />
+  </joint>
+  <link
+    name="l_link">
+    <inertial>
+      <origin
+        xyz="0.0015384031888858 -0.000403232726847674 0.00579759783012201"
+        rpy="0 0 0" />
+      <mass
+        value="0.00218924933187322" />
+      <inertia
+        ixx="4.0534152698165E-07"
+        ixy="3.60077827494503E-10"
+        ixz="-1.99675888093364E-09"
+        iyy="3.31222174181852E-07"
+        iyz="-8.79337758250917E-09"
+        izz="7.74319582642917E-08" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://jetauto_description/meshes/pro/gripper/l_link.STL" />
+      </geometry>
+      <material name="black"/>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://jetauto_description/meshes/pro/gripper/l_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="l_joint"
+    type="revolute">
+    <origin
+      xyz="-0.0073352 0.013977 0.027057"
+      rpy="0 0 0" />
+    <parent
+      link="gripper_link" />
+    <child
+      link="l_link" />
+    <axis
+      xyz="0.99997 0.0055811 -0.0058397" />
+    <limit
+      lower="-1.57"
+      upper="1.57"
+      effort="1000"
+      velocity="10" />
+    <mimic
+      joint="r_joint"
+      multiplier="-1"
+      offset="0" />
+  </joint>
+  <link
+    name="l_in_link">
+    <inertial>
+      <origin
+        xyz="0.00610191812065245 2.91459132896708E-05 0.0144573768632076"
+        rpy="0 0 0" />
+      <mass
+        value="0.000776872870694597" />
+      <inertia
+        ixx="9.87455572181138E-08"
+        ixy="5.06340928475727E-12"
+        ixz="-6.79685646256186E-10"
+        iyy="9.76635148452203E-08"
+        iyz="-6.12115908323794E-12"
+        izz="2.25695364751658E-09" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://jetauto_description/meshes/pro/gripper/l_in_link.STL" />
+      </geometry>
+      <material name="black"/>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://jetauto_description/meshes/pro/gripper/l_in_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="l_in_joint"
+    type="revolute">
+    <origin
+      xyz="-0.0071623 0.0049403 0.046019"
+      rpy="0 0 0" />
+    <parent
+      link="gripper_link" />
+    <child
+      link="l_in_link" />
+    <axis
+      xyz="0.99996 0.0046983 -0.0070439" />
+    <limit
+      lower="-1.57"
+      upper="1.57"
+      effort="1000"
+      velocity="10" />
+    <mimic
+      joint="r_joint"
+      multiplier="-1"
+      offset="0" />
+  </joint>
+  <link
+    name="l_out_link">
+    <inertial>
+      <origin
+        xyz="0.00602407836518577 0.0014461936314294 0.00961214041434189"
+        rpy="0 0 0" />
+      <mass
+        value="0.00384735908281124" />
+      <inertia
+        ixx="8.77337978935691E-07"
+        ixy="1.36760329013846E-09"
+        ixz="-6.9462127438421E-09"
+        iyy="8.19648792008027E-07"
+        iyz="1.56177294727923E-07"
+        izz="7.0687486597803E-08" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://jetauto_description/meshes/pro/gripper/l_out_link.STL" />
+      </geometry>
+      <material name="black"/>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://jetauto_description/meshes/pro/gripper/l_out_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="l_out_joint"
+    type="revolute">
+    <origin
+      xyz="0.00020427 0 0.028999"
+      rpy="0 0 0" />
+    <parent
+      link="l_in_link" />
+    <child
+      link="l_out_link" />
+    <axis
+      xyz="0.99996 0.0046983 -0.0070439" />
+    <limit
+      lower="-1.57"
+      upper="1.57"
+      effort="1000"
+      velocity="10" />
+    <mimic
+      joint="r_joint"
+      multiplier="1"
+      offset="0" />
+  </joint>
+  <link
+    name="r_in_link">
+    <inertial>
+      <origin
+        xyz="0.00610191812065006 -2.81924690068705E-05 0.0144573787538957"
+        rpy="0 0 0" />
+      <mass
+        value="0.000776872870694522" />
+      <inertia
+        ixx="9.87465668171204E-08"
+        ixy="-5.11173808106636E-12"
+        ixz="-6.79692406191707E-10"
+        iyy="9.7664293636849E-08"
+        iyz="-5.14018800149497E-13"
+        izz="2.25718458778487E-09" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://jetauto_description/meshes/pro/gripper/r_in_link.STL" />
+      </geometry>
+      <material name="black"/>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://jetauto_description/meshes/pro/gripper/r_in_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="r_in_joint"
+    type="revolute">
+    <origin
+      xyz="-0.0071623 -0.004943 0.046019"
+      rpy="0 0 0" />
+    <parent
+      link="gripper_link" />
+    <child
+      link="r_in_link" />
+    <axis
+      xyz="-0.99996 0.0046987 0.0070436" />
+    <limit
+      lower="-1.57"
+      upper="1.57"
+      effort="1000"
+      velocity="10" />
+    <mimic
+      joint="r_joint"
+      multiplier="-1"
+      offset="0" />
+  </joint>
+  <link
+    name="r_out_link">
+    <inertial>
+      <origin
+        xyz="0.0060622 -0.0014474 0.0096107"
+        rpy="0 0 0" />
+      <mass
+        value="0.0038474" />
+      <inertia
+        ixx="8.7734E-07"
+        ixy="-1.2815E-09"
+        ixz="-6.7006E-09"
+        iyy="8.1957E-07"
+        iyz="-1.5635E-07"
+        izz="7.0761E-08" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://jetauto_description/meshes/pro/gripper/r_out_link.STL" />
+      </geometry>
+      <material name="black"/>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://jetauto_description/meshes/pro/gripper/r_out_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="r_out_joint"
+    type="revolute">
+    <origin
+      xyz="0.00020427 0 0.028999"
+      rpy="0 0 0" />
+    <parent
+      link="r_in_link" />
+    <child
+      link="r_out_link" />
+    <axis
+      xyz="-0.99996 0.0046987 0.0070436" />
+    <limit
+      lower="-1.57"
+      upper="1.57"
+      effort="1000"
+      velocity="10" />
+    <mimic
+      joint="r_joint"
+      multiplier="1"
+      offset="0" />
+  </joint>
+</robot>

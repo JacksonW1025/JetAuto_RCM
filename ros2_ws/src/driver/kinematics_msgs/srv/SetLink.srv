@@ -1,0 +1,4 @@
+kinematics_msgs/Link data
+---
+bool success
+string message

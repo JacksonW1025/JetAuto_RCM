@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot name="aerial" xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:property name="aerial_link_mass"   value="0.1" />
+  <xacro:property name="aerial_link_radius" value="0.0045"/>
+  <xacro:property name="aerial_link_length" value="0.11"/>
+  <link name="aerial_left_link">
+    <xacro:cylinder_inertial m="${aerial_link_mass}" r="${aerial_link_radius}" h="${aerial_link_length}" />
+    <collision>
+      <origin xyz="-0.115 0.038 0.20" rpy="0 0 0"/>
+      <geometry>
+        <cylinder length="${aerial_link_length}" radius="${aerial_link_radius}"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="aerial_left_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="aerial_left_link"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <link name="aerial_right_link">
+    <xacro:cylinder_inertial m="${aerial_link_mass}" r="${aerial_link_radius}" h="${aerial_link_length}" />
+    <collision>
+      <origin xyz="-0.115 -0.038 0.20" rpy="0 0 0"/>
+      <geometry>
+        <cylinder length="${aerial_link_length}" radius="${aerial_link_radius}"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="aerial_right_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="aerial_right_link"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+</robot>
