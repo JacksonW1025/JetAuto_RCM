@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<!--肢体控制-->
+<launch>
+    <include file="$(find jetauto_peripherals)/launch/depth_cam.launch"/>
+    <!--底盘驱动(chassis driver)-->
+    <include file="$(find jetauto_controller)/launch/jetauto_controller.launch"/>
+
+    <node pkg="jetauto_example" type="body_control.py" name="body_control" output="screen"/>
+</launch>

@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="machine_type" default="$(env MACHINE_TYPE)"/>
+    <node name="hiwonder_servo_manager" pkg="hiwonder_servo_controllers" type="controller_manager.py" required="true" output="screen">
+        <rosparam if="$(eval machine_type == 'JetAutoPro')" file="$(find hiwonder_servo_controllers)/config/hiwonder_servo_controller.yaml" command="load"/>
+        <rosparam if="$(eval machine_type != 'JetAutoPro')" file="$(find hiwonder_servo_controllers)/config/hiwonder_servo_controller_without_arm.yaml" command="load"/>
+    </node>
+</launch>

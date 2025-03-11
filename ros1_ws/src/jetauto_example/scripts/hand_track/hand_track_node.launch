@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--手部跟踪-->
+<launch>
+    <arg name="use_depth_cam"   default="true"/>
+    <!--底盘驱动(chassis driver)-->
+    <include file="$(find jetauto_controller)/launch/jetauto_controller.launch"/>
+    <include file="$(find jetauto_kinematics)/launch/kinematics_node.launch"/>
+    <include     if="$(arg use_depth_cam)" file="$(find jetauto_peripherals)/launch/depth_cam.launch"/>
+    <include unless="$(arg use_depth_cam)" file="$(find jetauto_peripherals)/launch/usb_cam.launch"/>
+    <node pkg="jetauto_example" type="hand_detect_node.py" name="hand_detect" output="screen">
+        <param name="use_depth_cam" value="$(arg use_depth_cam)"/>
+    </node>
+    <node pkg="jetauto_example" type="hand_track_node.py" name="hand_track" output="screen"/>
+</launch>

@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<!--此launch文件被设定为自启动，自启文件路径:/etc/systemd/system/start_app_node.service 方式systemd，(this launch file is set as auto-start. The path of the auto-start file is /etc/systemd/system/start_app_node.service  method:systemd)
+关闭自启（重启后失效）：sudo systemctl stop start_app_node.service(close auto-start(invalid after reboot)：sudo systemctl stop start_app_node.service)
+开启自启（重启后失效）：sudo systemctl start start_app_node.service(enable auto-start(invalid after reboot): sudo systemctl start start_app_node.service)
+永久关闭自启（重启依旧生效）：sudo systemctl disable start_app_node.service(close auto-start permanently(still valid after reboot)：sudo systemctl disable start_app_node.service)
+永久开启自启（重启依旧生效）：sudo systemctl enable start_app_node.service(enable auto-start permanently(still valid after reboot):sudo systemctl enable start_app_node.service)
+重启自启：sudo systemctl restart start_app_node.service(restart auto-start:sudo systemctl restart start_app_node.service)
+查看自启：sudo systemctl status start_app_node.service(check auto-start: sudo systemctl status start_app_node.service)
+-->
+<launch>
+    <!--自定义usb摄像头名称(custom usb camera name)-->
+    <arg name="usb_cam_name"        default="usb_cam"/>
+    <!--自定义深度摄像头名称(custom depth camera name)-->
+    <arg name="depth_camera_name"   default="astra_cam"/>
+    <!--自定义深度摄像头rgb话题名称(custom depth camera rgb topic name)-->
+    <arg name="image_topic"         default="image_raw"/>
+    <!--获取当前设备类型, 具体类型在~/.typerc里定义(Acquire the type of the current device. The specific type is defined by ~/.typerc)-->
+    <arg name="machine_type"        default="$(env MACHINE_TYPE)"/>
+    <arg name="depth_camera_type"   default="$(env DEPTH_CAMERA_TYPE)"/>
+
+    <!--底盘驱动(chassis driver)-->
+    <include file="$(find jetauto_controller)/launch/jetauto_controller.launch"/>
+
+    <!--usb摄像头，只有设备为JetAutoPro时才开启(usb camera. Only when the device is JetAutoPro, the camera will be start)-->
+    <include if="$(eval machine_type == 'JetAutoPro')" file="$(find jetauto_peripherals)/launch/usb_cam.launch">
+        <arg name="usb_cam_name" value="$(arg usb_cam_name)"/>
+    </include>
+
+    <!--深度摄像头(depth camera)-->
+    <include file="$(find jetauto_peripherals)/launch/depth_cam.launch">
+        <arg name="depth_camera_name" value="$(arg depth_camera_name)"/>
+        <arg name="image_topic" value="$(arg image_topic)"/>
+    </include>
+
+    <!--app画面传输(app image transimission)-->
+    <node if="$(eval depth_camera_type != '')" name="web_video_server" pkg="web_video_server" respawn="true" respawn_delay="2"  type="web_video_server" output="screen"/>
+
+    <!--app通信(app communication)-->
+    <include file="$(find jetauto_bringup)/launch/rosbridge.launch"/>
+
+    <!--app功能(app function)-->
+    <include file="$(find jetauto_app)/launch/start_app.launch"/>
+
+    <!--手柄控制(handle control)-->
+    <include file="$(find jetauto_peripherals)/launch/joystick_control.launch"/>
+
+    <!--开机自检(Power on self test)-->
+    <node name="startup_check" pkg="jetauto_bringup" type="startup_check.py" output="screen"/>
+
+    <!--姿态(Pose)-->
+    <node name="init_pose" pkg="jetauto_slam" type="init_pose.py" output="screen"/>
+</launch>
+

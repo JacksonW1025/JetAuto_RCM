@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<launch>
+    <!--启动智能巡逻节点(start intelligent patrolling node)-->
+    <node name="patrol_app" pkg="jetauto_app" type="patrol.py" output="screen"/>
+</launch>

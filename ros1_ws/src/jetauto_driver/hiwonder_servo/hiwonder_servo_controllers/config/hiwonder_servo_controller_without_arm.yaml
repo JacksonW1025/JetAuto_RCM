@@ -1,0 +1,19 @@
+controllers:
+  joint1_controller:
+    type: JointPositionController
+    joint_name: joint1
+    joint_speed: 1.0
+    port_id: 1
+    servo:
+      id: 1
+      init: 500
+      min: 1000
+      max: 0
+
+serial_ports:
+  - port_id: 1
+    min_motor_id: 1
+    max_motor_id: 10
+    fake_read: true
+    connected_ids: [1]
+    update_rate: 10

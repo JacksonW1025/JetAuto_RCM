@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<launch>
+    <!--row:横 column:纵 triangle:三角-->
+    <!--
+    triangle:
+                master
+                  |
+                (0.7m)
+                  |
+    robot_3———(0.8m)———robot_2
+
+    row:
+    robot_3———(0.7m)———master———(0.7m)———robot_2
+
+    column:
+    master
+      |
+    (0.6m)
+      |
+    robot_2
+      |
+    (0.6m)
+      |
+    robot_3
+    -->
+    <arg name="multi_mode"  default="row" doc="opt: row, column, triangle"/>
+    <arg name="map"         default=""/>
+    <arg name="robot2_name" default="robot_2"/>
+    <arg name="robot3_name" default="robot_3"/>
+
+    <include file="$(find jetauto_navigation)/launch/include/load_map.launch">
+        <arg name="map" value="$(arg map)"/>
+    </include>
+
+    <include file="$(find jetauto_slam)/launch/include/jetauto_robot.launch">
+        <arg name="use_joy" value="false"/>
+    </include>
+
+    <include file="$(find jetauto_multi)/launch/multi_formation/include/formation_navigation.launch">
+        <arg name="multi_mode"  value="$(arg multi_mode)"/>
+    </include>
+
+    <include file="$(find jetauto_multi)/launch/multi_formation/include/multi_formation.launch">
+        <arg name="multi_mode"  value="$(arg multi_mode)"/>
+        <arg name="robot2_name" value="$(arg robot2_name)"/>
+        <arg name="robot3_name" value="$(arg robot3_name)"/>
+    </include>
+
+    <include file="$(find jetauto_multi)/launch/joy_control.launch">
+        <arg name="remap_cmd_vel"   value="/$(env ROBOT_MASTER)/jetauto_controller/cmd_vel"/>
+    </include>
+</launch>

@@ -1,0 +1,28 @@
+topics:
+  -
+    topic: /depth_cam/rgb/image_raw  # Topic name on both ROS 1 and ROS 2
+    type: sensor_msgs/msg/Image  # Type of topic to bridge
+    queue_size: 1  # Queue size
+  -
+    topic: /depth_cam/depth/image_raw  # Topic name on both ROS 1 and ROS 2
+    type: sensor_msgs/msg/Image  # Type of topic to bridge
+    queue_size: 1  # Queue size
+  -
+    topic: /yolov5/object_image  # Topic name on both ROS 1 and ROS 2
+    type: sensor_msgs/msg/Image  # Type of topic to bridge
+    queue_size: 1  # Queue size
+  -
+    topic: /yolov5/object_detect  # Topic name on both ROS 1 and ROS 2
+    type: interfaces/msg/ObjectsInfo  # Type of topic to bridge
+    queue_size: 1  # Queue size
+
+services_2_to_1:
+  -
+    service: /yolov5/start  # ros 1 service name
+    type: std_srvs/Trigger  # the ros 1 service type name
+  -
+    service: /yolov5/stop  # ros 1 service name
+    type: std_srvs/Trigger  # the ros 1 service type name
+  -
+    service: /yolov5/init_finish  # ros 1 service name
+    type: std_srvs/Trigger  # the ros 1 service type name

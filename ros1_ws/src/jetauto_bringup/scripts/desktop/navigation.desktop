@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Navigation
+Comment=Navigation Program
+Encoding=UTF-8
+Exec=zsh /home/jetauto/jetauto_ws/src/jetauto_bringup/scripts/navigation.sh
+Terminal=true
+MultipleArgs=false
+Type=Application
+Categories=Application;Development;
+StartupNotify=true

@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="paused" default="false"/>
+    <arg name="gazebo_gui" default="true"/>
+
+    <!--机器命名空间-->
+    <arg name="robot_name"      default="$(env ROBOT_HOST)" />
+    <arg name="machine_type"    default="$(env MACHINE_TYPE)"/>
+
+    <arg name="odom_frame"          default="odom"/>
+    <arg name="base_frame"          default="base_footprint"/>
+    <arg name="depth_camera_name"   default="camera"/>
+    <arg name="lidar_view"          default="false"/>
+
+    <arg name="initial_x"       default="0.0"/>
+    <arg name="initial_y"       default="0.0"/>
+    <arg name="initial_z"       default="0.0"/>
+    <arg name="initial_Y"       default="0.0"/>
+
+    <!-- startup simulated world -->
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="world_name" default="worlds/empty.world"/>
+        <arg name="paused" value="$(arg paused)"/>
+        <arg name="gui" value="$(arg gazebo_gui)"/>
+    </include>
+
+    <!-- send robot urdf to param server -->
+    <param name="robot_description" command="$(find xacro)/xacro '$(find jetauto_description)/urdf/jetauto.urdf.xacro' odom_frame:=$(arg odom_frame) base_frame:=$(arg base_frame) depth_camera_name:=$(arg depth_camera_name) lidar_view:=$(arg lidar_view)"/>
+
+    <!-- push robot_description to factory and spawn robot in gazebo at the origin, change x,y,z arguments to spawn in a different position -->
+    <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" args="-urdf -param robot_description -model $(arg robot_name) 
+                -x $(arg initial_x) -y $(arg initial_y) -z $(arg initial_z) -Y $(arg initial_Y) -J joint1 0 -J joint2 -0.83776 -J joint3 2.03156 -J joint4 1.19380 -J r_joint 0.5" respawn="false" output="screen" />
+
+    <include file="$(find jetauto_moveit_config)/launch/ros_controllers.launch"/>
+</launch>

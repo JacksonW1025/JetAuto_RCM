@@ -1,0 +1,14 @@
+[Unit]
+Description=clear log
+
+[Service]
+Type=simple
+User=jetauto
+Restart=always
+RestartSec=10
+ExecStart=/home/jetauto/jetauto_ws/src/jetauto_bringup/scripts/clear_log.py
+StandardOutput=null
+StandardError=null
+
+[Install]
+WantedBy=multi-user.target

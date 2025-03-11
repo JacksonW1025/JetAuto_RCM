@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<!--跌倒检测-->
+<launch>
+    <include file="$(find jetauto_peripherals)/launch/depth_cam.launch"/>
+    <!--底盘驱动(chassis driver)-->
+    <include file="$(find jetauto_controller)/launch/jetauto_controller.launch"/>
+
+    <node pkg="jetauto_example" type="fall_down_detect.py" name="fall_down_detect" output="screen"/>
+</launch>

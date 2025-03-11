@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="lidar_type"  default="$(env LIDAR_TYPE)" doc="lidar_type [A1, A2, C1, S2L, G4, LD14P]"/>
+    <arg name="scan_topic"  default="scan"/>
+    <arg name="lidar_frame" default="lidar_frame"/>
+
+    <!--    A1
+        -180 180
+     -90         90
+            0
+    -->
+    <include if="$(eval lidar_type == 'A1')" file="$(find jetauto_peripherals)/launch/include/rplidar.launch">
+        <arg name="lidar_type"      value="$(arg lidar_type)" />
+        <arg name="scanner_name"    value="$(arg scan_topic)" />
+        <arg name="laser_frame"     value="$(arg lidar_frame)" />
+    </include>
+
+    <include if="$(eval lidar_type == 'A2')" file="$(find jetauto_peripherals)/launch/include/rplidar.launch">
+        <arg name="lidar_type"      value="$(arg lidar_type)" />
+        <arg name="scanner_name"    value="$(arg scan_topic)" />
+        <arg name="laser_frame"     value="$(arg lidar_frame)" />
+    </include>
+
+    <include if="$(eval lidar_type == 'C1')" file="$(find jetauto_peripherals)/launch/include/rplidar_c1.launch">
+        <arg name="scanner_name"    value="$(arg scan_topic)" />
+        <arg name="laser_frame"     value="$(arg lidar_frame)" />
+    </include>
+
+    <include if="$(eval lidar_type == 'S2L')" file="$(find jetauto_peripherals)/launch/include/rplidar_s2.launch">
+        <arg name="scanner_name"    value="$(arg scan_topic)" />
+        <arg name="laser_frame"     value="$(arg lidar_frame)" />
+    </include>
+
+    <!--    G4
+            0
+      90        -90
+        180 -180
+    -->
+    <include if="$(eval lidar_type == 'G4')" file="$(find jetauto_peripherals)/launch/include/ydlidar.launch">
+        <arg name="scan_topic" value="$(arg scan_topic)" />
+        <arg name="frame_id"   value="$(arg lidar_frame)" />
+    </include>
+
+    <!--  LD14P
+        -180 180
+     -90         90
+            0
+    -->
+    <include if="$(eval lidar_type == 'LD14P')" file="$(find jetauto_peripherals)/launch/include/ld14p.launch">
+        <arg name="scanner_name"    value="$(arg scan_topic)" />
+        <arg name="laser_frame"     value="$(arg lidar_frame)" />
+    </include>
+</launch>
+

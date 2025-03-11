@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="master"          default="$(env ROBOT_MASTER)"/>
+    <arg name="robot_name"      default="$(env ROBOT_HOST)"/>
+    <arg name="cmd_vel_topic"   default="/jetauto_controller/cmd_vel"/>
+
+    <group ns="$(arg robot_name)">
+        <include file="$(find jetauto_controller)/launch/jetauto_controller.launch">
+            <arg name="cmd_vel" value="$(arg cmd_vel_topic)"/>
+        </include>
+        <node name="init_pose" pkg="jetauto_slam" type="init_pose.py" output="screen"/>
+    </group>
+
+    <include if="$(eval master == robot_name)" file="$(find jetauto_multi)/launch/joy_control.launch"/>
+</launch>

@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="use_depth_cam"       default="true"/>
+    <arg name="only_line_follow"    default="false"/>
+    <include     if="$(arg use_depth_cam)" file="$(find jetauto_peripherals)/launch/depth_cam.launch"/>
+
+    <include unless="$(arg use_depth_cam)" file="$(find jetauto_peripherals)/launch/usb_cam.launch"/>
+    <rosparam file="$(find jetauto_example)/config/yolov5_bridge.yaml"   command="load"/>
+    <arg name="node_name" default="yolov5" />
+    <rosparam param="/$(arg node_name)/classes">['go', 'right', 'park', 'red', 'green', 'crosswalk']</rosparam>
+    <node unless="$(arg only_line_follow)" pkg="jetauto_example" type="yolov5_node.py" name="$(arg node_name)" output="screen">
+        <param name="use_depth_cam" value="$(arg use_depth_cam)"/>
+        <param name="engine"        value="traffic_signs_640s_7_0.engine"/>
+        <param name="lib"           value="libmyplugins_640.so"/>
+        <param name="conf_thresh"   value="0.75"/>
+    </node>
+</launch>

@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--角速度校准-->
+<launch>
+    <arg name="angular"         default="true"/>
+
+    <!--底盘驱动(chassis driver)-->
+    <include file="$(find jetauto_controller)/launch/jetauto_controller.launch"/>
+
+    <!--角速度校准(angular velocity calibration)-->
+    <node name="calibrate_angular" pkg="jetauto_calibration" type="calibrate_angular.py" output="screen"/>
+
+    <node name="init_pose" pkg="jetauto_slam" type="init_pose.py" output="screen"/>
+
+    <!--rqt-->
+    <node pkg="rqt_reconfigure" type="rqt_reconfigure" name="calibrate_rqt_reconfigure"/>
+
+    <!--参数重赋值(reassign the parameter)-->
+    <param if="$(arg angular)" name="/jetauto_odom_publisher/angular_correction_factor" value="1.0"/>
+</launch>

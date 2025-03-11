@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=SLAM
+Comment=SLAM Program
+Encoding=UTF-8
+Exec=bash /home/jetauto/jetauto_ws/src/jetauto_bringup/scripts/slam.sh
+Terminal=false
+MultipleArgs=false
+Type=Application
+Categories=Application;Development;
+StartupNotify=true

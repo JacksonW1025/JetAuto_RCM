@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="gui" default="true" />
+  <arg name="imu_frame" default="imu_frame"/>
+  <arg name="imu_link" default="world"/>
+
+  <node name="imu" pkg="mpu_6050_driver" type="imu_node.py" >
+	<param name="imu_frame" value="$(arg imu_frame)"/>
+  </node>
+  
+  <node name="imu_filter" pkg="imu_complementary_filter" type="complementary_filter_node" >
+	<remap from="/imu/data" to="/imu_data"/>
+  </node> 
+  
+  <node name="rpy_tf" pkg="mpu_6050_driver" type="tf_broadcaster_imu.py" >
+	<param name="imu_frame" value="$(arg imu_frame)"/>
+  	<param name="imu_link" value="$(arg imu_link)"/>
+  </node>
+  
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find mpu_6050_driver)/config/rviz_config.rviz"/> 
+</launch>

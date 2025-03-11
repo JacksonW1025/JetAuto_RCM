@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--颜色识别-->
+<launch>
+    <arg name="use_depth_cam"   default="true"/>
+    <arg name="enable_display"  default="false"/>
+    <include     if="$(arg use_depth_cam)" file="$(find jetauto_peripherals)/launch/depth_cam.launch"/>
+    <include unless="$(arg use_depth_cam)" file="$(find jetauto_peripherals)/launch/usb_cam.launch"/>
+
+    <node pkg="jetauto_example" type="color_detect_node.py" name="color_detect" output="screen">
+        <param name="enable_display"  value="$(arg enable_display)"/>
+        <param name="use_depth_cam"   value="$(arg use_depth_cam)"/>
+        <rosparam file="$(find jetauto_example)/scripts/color_detect/roi.yaml" command="load"/>
+    </node>
+</launch>

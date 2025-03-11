@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<robot name="jetauto_car" xmlns:xacro="http://ros.org/wiki/xacro">
+    <gazebo>
+        <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so" />
+        <plugin name="jetauto_gazebo_controller" filename="libgazebo_ros_planar_move.so">
+            <commandTopic>jetauto_controller/cmd_vel</commandTopic>
+            <odometryTopic>odom</odometryTopic>
+            <odometryFrame>$(arg odom_frame)</odometryFrame>
+            <odometryRate>20.0</odometryRate>
+            <robotBaseFrame>$(arg base_frame)</robotBaseFrame>
+        </plugin>
+    </gazebo>
+
+    <xacro:macro name="model_color" params="link_name color_name">
+        <gazebo reference="${link_name}">
+            <material>Gazebo/${color_name}</material>
+            <turnGravityOff>false</turnGravityOff>
+        </gazebo>
+    </xacro:macro>
+
+    <xacro:model_color link_name="base_link"                        color_name="green"/>
+    <xacro:model_color link_name="lidar_link"                       color_name="black"/>
+    <xacro:model_color link_name="back_shell_link"                  color_name="black"/>
+    <xacro:model_color link_name="wheel_right_front_link"           color_name="black"/>
+    <xacro:model_color link_name="wheel_left_front_link"            color_name="black"/>
+    <xacro:model_color link_name="wheel_right_back_link"            color_name="black"/>
+    <xacro:model_color link_name="wheel_left_back_link"             color_name="black"/>
+    <xacro:model_color link_name="mic_link"                         color_name="black"/>
+    <xacro:model_color link_name="speaker_link"                     color_name="black"/>
+</robot>

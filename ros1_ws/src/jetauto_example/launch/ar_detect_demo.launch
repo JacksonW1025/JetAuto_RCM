@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<!--AR检测-->
+<launch>
+    <arg name="use_depth_cam"       default="true"/>
+    <arg name="usb_cam_name"        default="usb_cam"/>
+    <arg name="depth_camera_name"   default="depth_cam"/>
+    <arg name="image_topic"         default="image_raw" />
+
+    <arg name="marker_size"             default="5" />
+    <arg name="max_new_marker_error"    default="0.08" />
+    <arg name="max_track_error"         default="0.2" />
+    <arg name="pi/2" value="1.5707963267948966" />
+    <arg unless="$(arg use_depth_cam)" name="cam_image_topic"   default="/$(arg usb_cam_name)/$(arg image_topic)" />
+    <arg unless="$(arg use_depth_cam)" name="cam_info_topic"    default="/$(arg usb_cam_name)/camera_info" />
+    <arg unless="$(arg use_depth_cam)" name="output_frame"      default="/$(arg usb_cam_name)" />
+    <arg if="$(arg use_depth_cam)" name="cam_image_topic"       default="/$(arg depth_camera_name)/rgb/$(arg image_topic)" />
+    <arg if="$(arg use_depth_cam)" name="cam_info_topic"        default="/$(arg depth_camera_name)/rgb/camera_info" />
+    <arg if="$(arg use_depth_cam)" name="output_frame"          default="/$(arg depth_camera_name)_link" />
+
+    <!--USB摄像头-->
+    <include unless="$(arg use_depth_cam)" file="$(find jetauto_peripherals)/launch/usb_cam.launch">
+        <arg name="usb_cam_name" value="$(arg usb_cam_name)"/>
+    </include>
+    <node unless="$(arg use_depth_cam)" pkg="tf2_ros" type="static_transform_publisher" name="$(arg usb_cam_name)_link"
+        args="0 0 0 -$(arg pi/2) $(arg pi/2) 0 $(arg usb_cam_name) world" />
+
+    <!--深度摄像头-->
+    <include if="$(arg use_depth_cam)" file="$(find jetauto_peripherals)/launch/depth_cam.launch">
+        <arg name="depth_camera_name" value="$(arg depth_camera_name)"/>
+    </include>
+
+    <!--底盘驱动(chassis driver)-->
+    <include file="$(find jetauto_controller)/launch/jetauto_controller.launch"/>
+    <node name="init_pose" pkg="jetauto_slam" type="init_pose.py" output="screen">
+        <param name="horizontal" value="true"/>
+    </node>
+
+    <node name="ar_track_alvar" pkg="ar_track_alvar" type="individualMarkersNoKinect" respawn="false" output="screen">
+        <param name="marker_size"           type="double" value="$(arg marker_size)" />
+        <param name="max_new_marker_error"  type="double" value="$(arg max_new_marker_error)" />
+        <param name="max_track_error"       type="double" value="$(arg max_track_error)" />
+        <param name="output_frame"          type="string" value="$(arg output_frame)" />
+
+        <remap from="camera_image"  to="$(arg cam_image_topic)" />
+        <remap from="camera_info"   to="$(arg cam_info_topic)" />
+    </node>
+
+    <node unless="$(arg use_depth_cam)" name="rviz" pkg="rviz" type="rviz" args="-d $(find jetauto_example)/rviz/ar_usb_cam.rviz" />
+    <node if="$(arg use_depth_cam)" name="rviz" pkg="rviz" type="rviz" args="-d $(find jetauto_example)/rviz/ar.rviz" />
+</launch>

@@ -1,0 +1,5 @@
+jetauto_interfaces/JointRange joint1
+jetauto_interfaces/JointRange joint2
+jetauto_interfaces/JointRange joint3
+jetauto_interfaces/JointRange joint4
+jetauto_interfaces/JointRange joint5

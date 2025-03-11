@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="only_line_follow"    default="false"/>
+    <arg name="use_depth_cam"       default="true"/>
+    <include file="$(find jetauto_controller)/launch/jetauto_controller.launch"/>
+    <include file="$(find jetauto_example)/scripts/self_driving/self_driving_base.launch">
+        <arg name="use_depth_cam" value="$(arg use_depth_cam)"/>
+    </include>
+    <node pkg="jetauto_example" type="self_driving.py" name="self_driving" output="screen">
+          <param name="start"               value="true"/>
+          <param name="use_depth_cam" value="$(arg use_depth_cam)"/>
+          <param name="only_line_follow"    value="$(arg only_line_follow)"/>
+    </node>
+</launch>

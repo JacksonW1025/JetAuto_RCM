@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<robot name="usb_cam" xmlns:xacro="http://ros.org/wiki/xacro">
+    <xacro:property name="M_PI"             value="3.1415926535897931"/>
+    <xacro:property name="usb_camera_name"  value="usb_cam" />
+
+    <gazebo reference="${usb_camera_name}_link">
+        <sensor type="camera" name="usb_cam">
+            <update_rate>30.0</update_rate>
+            <camera name="head">
+                <pose>0 0 0 ${M_PI} -${M_PI/2} -${M_PI/2}</pose>
+                <horizontal_fov>1.085595</horizontal_fov>
+                <image>
+                    <width>640</width>
+                    <height>480</height>
+                    <format>R8G8B8</format>
+                </image>
+                <clip>
+                    <near>0.03</near>
+                    <far>100</far>
+                </clip>
+                <noise>
+                    <type>gaussian</type>
+                    <mean>0.0</mean>
+                    <stddev>0.007</stddev>
+                </noise>
+            </camera>
+            <plugin name="gazebo_camera" filename="libgazebo_ros_camera.so">
+                <alwaysOn>true</alwaysOn>
+                <updateRate>0.0</updateRate>
+                <cameraName>/${usb_camera_name}</cameraName>
+                <imageTopicName>image_raw</imageTopicName>
+                <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+                <frameName>${usb_camera_name}_link</frameName>
+                <hackBaseline>0.07</hackBaseline>
+                <distortionK1>0.0</distortionK1>
+                <distortionK2>0.0</distortionK2>
+                <distortionK3>0.0</distortionK3>
+                <distortionT1>0.0</distortionT1>
+                <distortionT2>0.0</distortionT2>
+            </plugin>
+        </sensor>
+    </gazebo>
+
+    <xacro:macro name="model_color" params="link_name color_name">
+        <gazebo reference="${link_name}">
+            <material>Gazebo/${color_name}</material>
+            <turnGravityOff>false</turnGravityOff>
+        </gazebo>
+    </xacro:macro>
+
+    <xacro:model_color link_name="${usb_camera_name}_link"    color_name="black"/>
+</robot>

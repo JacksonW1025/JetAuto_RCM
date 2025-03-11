@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot name="jetauto" xmlns:xacro="http://ros.org/wiki/xacro">
+    <xacro:property name="machine"  value="$(env MACHINE_TYPE)"/>
+    <xacro:include filename="$(find jetauto_description)/urdf/jetauto.xacro"/>
+    <xacro:include filename="$(find jetauto_description)/urdf/jetauto_car.gazebo.xacro"/>
+
+    <xacro:include filename="$(find jetauto_description)/urdf/imu.gazebo.xacro"/>
+
+    <xacro:include filename="$(find jetauto_description)/urdf/lidar.gazebo.xacro"/>
+
+    <xacro:if value="${machine != 'JetAutoPro'}">
+        <xacro:include filename="$(find jetauto_description)/urdf/screen.gazebo.xacro"/>
+
+        <xacro:include filename="$(find jetauto_description)/urdf/depth_camera.gazebo.xacro"/>
+    </xacro:if>
+
+    <xacro:if value="${machine == 'JetAutoPro'}">
+        <xacro:include filename="$(find jetauto_description)/urdf/pro/jetauto_arm.transmission.xacro"/>
+        <xacro:include filename="$(find jetauto_description)/urdf/pro/jetauto_arm.gazebo.xacro"/>
+
+        <xacro:include filename="$(find jetauto_description)/urdf/pro/gripper.transmission.xacro"/>
+        <xacro:include filename="$(find jetauto_description)/urdf/pro/gripper.gazebo.xacro"/>
+
+        <xacro:include filename="$(find jetauto_description)/urdf/pro/usb_camera.gazebo.xacro"/>
+
+        <xacro:include filename="$(find jetauto_description)/urdf/pro/screen.gazebo.xacro"/>
+
+        <xacro:include filename="$(find jetauto_description)/urdf/pro/depth_camera.gazebo.xacro"/>
+        <xacro:include filename="$(find jetauto_description)/urdf/pro/depth_camera_connect.gazebo.xacro"/>
+    </xacro:if>
+</robot>

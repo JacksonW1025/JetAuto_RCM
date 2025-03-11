@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="use_depth_cam"   default="true"/>
+    <include file="$(find xf_mic_asr_offline)/launch/mic_init.launch"/>
+    <include file="$(find jetauto_example)/scripts/color_track/color_track_node.launch">
+        <arg name="start"           value="false"/>
+        <arg name="use_depth_cam"   value="$(arg use_depth_cam)"/>
+    </include>
+    <node pkg="xf_mic_asr_offline" type="voice_control_color_track.py" name="voice_control_color_track_node" output="screen">
+        <param name="use_depth_cam" value="$(arg use_depth_cam)"/>
+    </node>
+</launch>

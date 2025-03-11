@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="imu_raw_topic"       default="/ros_robot_controller/imu_raw"/>
+    <arg name="imu_topic"           default="imu_data"/>
+
+    <node name="imu_calib" pkg="imu_calib" type="apply_calib" output="screen" >
+        <param name="calib_file" value="$(find jetauto_calibration)/config/imu_calib.yaml" />
+        <remap from="raw"        to="$(arg imu_raw_topic)" />
+        <remap from="corrected"  to="imu_corrected"/>
+    </node>
+
+    <node name="imu_filter" pkg="imu_complementary_filter" type="complementary_filter_node" >
+        <param name="use_mag"              value="false"/>
+        <param name="do_bias_estimation"   value="true"/>
+        <!--<param name="gain_acc"             value="0.2"/>-->
+        <!--<param name="bias_alpha"           value="0.2"/>-->
+        <param name="do_adaptive_gain"     value="true"/>
+        <param name="publish_debug_topics" value="false"/>
+        <remap from="imu/data_raw"         to="imu_corrected"/>
+        <remap from="imu/data"             to="$(arg imu_topic)"/>
+    </node>
+
+    <!--<node name="imu_filter" pkg="imu_filter_madgwick" type="imu_filter_node" >-->
+      <!--<param name="use_mag" value="false"/>-->
+      <!--<param name="world_frame" value="enu"/>-->
+      <!--<param name="publish_tf" value="false"/>-->
+      <!--<param name="imu_msg_type" value="sensor_msgs/Imu"/>-->
+      <!--<remap from="imu/data_raw" to="imu_corrected"/>-->
+      <!--<remap from="imu/data" to="$(arg imu_topic)"/>-->
+    <!--</node>-->
+</launch>

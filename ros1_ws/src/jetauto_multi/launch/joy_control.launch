@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<launch>
+    <!--启动手柄控制节点，重映射控制, 只控制主机-->
+    <arg name="namespace"       default="$(env ROBOT_MASTER)"/>
+    <arg name="remap_cmd_vel"   default="/jetauto_controller/cmd_vel"/>
+    <group ns="$(arg namespace)">
+        <include file="$(find jetauto_peripherals)/launch/joystick_control.launch">
+            <arg name="max_linear"      value="0.2" />
+            <arg name="max_angular"     value="0.5" />
+            <arg name="remap_cmd_vel"   value="$(arg remap_cmd_vel)"/>
+        </include>
+    </group>
+</launch>

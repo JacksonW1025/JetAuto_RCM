@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<!--物体追踪-->
+<launch>
+    <include file="$(find jetauto_peripherals)/launch/depth_cam.launch"/>
+    <!--底盘驱动(chassis driver)-->
+    <include file="$(find jetauto_controller)/launch/jetauto_controller.launch"/>
+    <node name="init_pose" pkg="jetauto_slam" type="init_pose.py" output="screen">
+        <param name="horizontal" value="true"/>
+    </node>
+    <node pkg="jetauto_example" type="object_tracking.py" name="object_tracking" output="screen"/>
+</launch>

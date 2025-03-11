@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<launch>
+    <!--row:横 column:纵 triangle:三角-->
+    <!--
+    triangle:
+                master
+                  |
+                (0.7m)
+                  |
+    robot_3———(0.8m)———robot_2
+
+    row:
+    robot_3———(0.7m)———master———(0.7m)———robot_2
+
+    column:
+    master
+      |
+    (0.6m)
+      |
+    robot_2
+      |
+    (0.6m)
+      |
+    robot_3
+    -->
+    <arg name="multi_mode"  default="row" doc="opt: row, column, triangle"/>
+    <arg name="master_name" default="$(env ROBOT_MASTER)"/>
+
+    <node pkg="jetauto_multi" type="formation_update.py" name="formation_update" output="screen">
+        <param name="master_name"  value="$(arg master_name)"/>
+        <param name="multi_mode"   value="$(arg multi_mode)"/>
+    </node>
+</launch>

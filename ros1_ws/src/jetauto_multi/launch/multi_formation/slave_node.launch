@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<launch>
+    <!--row:横 column:纵 triangle:三角-->
+    <arg name="multi_mode"  default="row" doc="opt: row, column, triangle"/>
+
+    <include file="$(find jetauto_slam)/launch/include/jetauto_robot.launch">
+        <arg name="use_joy" value="false"/>
+    </include>
+
+    <include file="$(find jetauto_multi)/launch/multi_formation/include/formation_navigation.launch">
+        <arg name="multi_mode"  value="$(arg multi_mode)"/>
+    </include>
+</launch>

@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="use_depth_cam"   default="true"/>
+    <include file="$(find xf_mic_asr_offline)/launch/mic_init.launch"/>
+    <!--底盘驱动(chassis driver)-->
+    <include file="$(find jetauto_controller)/launch/jetauto_controller.launch"/>
+    <node name="init_pose" pkg="jetauto_slam" type="init_pose.py" output="screen">
+        <param name="horizontal" value="true"/>
+    </node>
+
+    <include file="$(find jetauto_example)/scripts/color_detect/color_detect_node.launch">
+        <arg name="use_depth_cam" value="$(arg use_depth_cam)"/>
+    </include>
+
+    <node pkg="xf_mic_asr_offline" type="voice_control_color_detect.py" name="voice_control_color_detect_node" output="screen">
+        <param name="use_depth_cam" value="$(arg use_depth_cam)"/>
+    </node>
+</launch>

@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<launch>
+    <!--row:横 column:纵 triangle:三角-->
+    <arg name="multi_mode"  default="row" doc="opt: row, column, triangle"/>
+
+    <arg name="master_name" default="$(env ROBOT_MASTER)"/>
+    <arg name="robot2_name" default="robot_2"/>
+    <arg name="robot3_name" default="robot_3"/>
+
+    <!--设定机器的初始相对位置(set initial relative position of the robot)-->
+    <include file="$(find jetauto_multi)/launch/multi_formation/include/formation_update.launch">
+        <arg name="multi_mode"  value="$(arg multi_mode)"/>
+        <arg name="master_name" value="$(arg master_name)"/>
+    </include>
+
+    <!--发送控制指令到robot_2(send control command to robot_2)-->
+    <node name="robot2_tf_listener" pkg="jetauto_multi" type="slave_tf_listener.py" respawn="false" output="screen">
+        <param name="base_frame"   value="$(arg robot2_name)/base_footprint"/>
+        <param name="target_frame" value="point2"/>
+        <param name="cmd_vel"      value="/$(arg robot2_name)/jetauto_controller/cmd_vel"/>
+    </node>
+
+    <!--发送控制指令到robot_3(send control command to robot_3)-->
+    <node name="robot3_tf_listener" pkg="jetauto_multi" type="slave_tf_listener.py" respawn="false" output="screen">
+        <param name="base_frame"   value="$(arg robot3_name)/base_footprint"/>
+        <param name="target_frame" value="point3"/>
+        <param name="cmd_vel"      value="/$(arg robot3_name)/jetauto_controller/cmd_vel"/>
+    </node>
+</launch>

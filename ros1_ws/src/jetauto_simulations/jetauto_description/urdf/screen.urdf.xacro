@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot name="screen" xmlns:xacro="http://ros.org/wiki/xacro" >
+  <link
+    name="screen_link">
+    <inertial>
+      <origin
+        xyz="0.000376224127730196 -0.0104133205242451 0.104076677222777"
+        rpy="0 0 0" />
+      <mass
+        value="0.247926461854796" />
+      <inertia
+        ixx="0.000179151850515373"
+        ixy="-8.35582136998778E-08"
+        ixz="1.81544550648397E-07"
+        iyy="0.000605838540770406"
+        iyz="6.31091979140048E-05"
+        izz="0.000485523849557857" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://jetauto_description/meshes/screen_link.stl" />
+      </geometry>
+      <material name="black"/>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://jetauto_description/meshes/screen_link_collision.stl" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="screen_joint"
+    type="fixed">
+    <origin
+      xyz="-0.13449 0 0.082796"
+      rpy="0 0 1.5708" />
+    <parent
+      link="base_link" />
+    <child
+      link="screen_link" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+</robot>

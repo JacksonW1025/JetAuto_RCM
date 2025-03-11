@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<launch>
+    <param name="robot_description" command="$(find xacro)/xacro '$(find jetauto_description)/urdf/jetauto.xacro'" />
+    <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher"/>
+    <node pkg="joint_state_publisher" type="joint_state_publisher" name="joint_state_publisher"/>
+    <include file="$(find jetauto_peripherals)/launch/lidar.launch"/>
+
+    <node pkg="rviz" type="rviz" name="rviz" required="true" args="-d $(find jetauto_peripherals)/rviz/lidar_view.rviz"/>
+</launch>
+

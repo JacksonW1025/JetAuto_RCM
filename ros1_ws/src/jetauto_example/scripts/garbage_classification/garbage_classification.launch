@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--垃圾分类-->
+<launch>
+    <arg name="debug"           default="false"/>
+    <arg name="start"           default="true"/>
+    <arg name="broadcast"       default="false"/>
+
+    <include file="$(find jetauto_controller)/launch/jetauto_controller.launch"/>
+
+    <include file="$(find jetauto_example)/scripts/garbage_classification/garbage_classification_base.launch"/>
+
+    <node pkg="jetauto_example" type="garbage_classification.py" name="garbage_classification" output="screen">
+        <param name="start"     value="$(arg start)"/>
+        <param name="debug"     value="$(arg debug)"/>
+        <param name="broadcast" value="$(arg broadcast)"/>
+        <rosparam file="$(find jetauto_example)/config/garbage_classification_roi.yaml"   command="load"/>
+    </node>
+</launch>

@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<!--人体跟踪-->
+<launch>
+    <include file="$(find jetauto_controller)/launch/jetauto_controller.launch"/>>
+    <include file="$(find jetauto_example)/scripts/body_control/body_track_base.launch"/>
+    <node pkg="jetauto_example" type="body_track.py" name="body_track" output="screen"/>
+</launch>

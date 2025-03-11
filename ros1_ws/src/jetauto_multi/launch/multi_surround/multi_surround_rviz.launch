@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<launch>
+    <node pkg="rviz" type="rviz" name="rviz" required="true" args="-d $(find jetauto_multi)/rviz/multi_surround.rviz"/>
+</launch>

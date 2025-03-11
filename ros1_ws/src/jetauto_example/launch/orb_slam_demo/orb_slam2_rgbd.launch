@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!--orb_slam2深度-->
+<launch>
+    <arg name="depth_camera_name" default="depth_cam"/>
+
+    <!--深度摄像头-->
+    <include file="$(find jetauto_peripherals)/launch/depth_cam.launch">
+        <arg name="depth_camera_name" value="$(arg depth_camera_name)"/>
+    </include>
+
+    <!--底盘驱动(chassis driver)-->
+    <include file="$(find jetauto_controller)/launch/jetauto_controller.launch"/>
+    <node name="init_pose" pkg="jetauto_slam" type="init_pose.py" output="screen">
+        <param name="horizontal" value="true"/>
+    </node>
+
+    <!--手柄控制-->
+    <include file="$(find jetauto_peripherals)/launch/joystick_control.launch" >
+        <arg name="max_linear"  value="0.15"/>
+        <arg name="max_angular" value="0.5"/>
+    </include>
+
+    <node name="orb_slam2_rgbd" pkg="ORB_SLAM2" type="RGBD" output="screen" args="$(find ORB_SLAM2)/../../../Vocabulary/ORBvoc.txt $(find ORB_SLAM2)/../../RGB-D/TUM1.yaml">
+        <remap from="/camera/rgb/image_raw"                 to="/$(arg depth_camera_name)/rgb/image_raw" />
+        <remap from="/camera/depth_registered/image_raw"    to="/$(arg depth_camera_name)/depth/image_raw" />
+    </node>
+</launch>

@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="known_init_pose"     default="true"/>
+
+    <!-- multirobot_map_merge -->
+    <node pkg="multirobot_map_merge" type="map_merge" respawn="false" name="map_merge" output="screen">
+        <param name="robot_map_topic" value="map"/>
+        <param name="robot_namespace" value="jetauto"/>
+        <param name="merged_map_topic" value="map"/>
+        <param name="world_frame" value="map"/>
+        <param name="known_init_poses" value="$(arg known_init_pose)"/>
+        <param name="merging_rate" value="10"/>
+        <param name="discovery_rate" value="0.05"/>
+        <param name="estimation_rate" value="0.1"/>
+        <param name="estimation_confidence" value="0.3"/>
+    </node>
+</launch>

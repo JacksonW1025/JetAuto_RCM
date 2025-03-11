@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="map"          default=""/>
+    <arg name="master_name"  default="$(env ROBOT_MASTER)"/>
+    <arg name="robot_name"   default="$(env ROBOT_HOST)"/>
+    <arg name="target_robot" default="robot_2"/>
+
+    <include file="$(find jetauto_navigation)/launch/navigation.launch">
+        <arg name="map" value="$(arg map)"/>
+    </include>
+
+    <include file="$(find jetauto_multi)/launch/multi_navigation/include/add_costmap_layer.launch">
+        <arg name="master_name"  value="$(arg master_name)"/>
+        <arg name="robot_name"  value="$(arg robot_name)"/>
+        <arg name="target_robot" value="$(arg target_robot)"/>
+    </include>
+</launch>
